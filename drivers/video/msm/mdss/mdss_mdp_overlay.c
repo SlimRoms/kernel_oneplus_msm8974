@@ -968,9 +968,11 @@ int mdss_mdp_overlay_start(struct msm_fb_data_type *mfd)
 		if (!mdp5_data->mdata->batfet)
 			mdss_mdp_batfet_ctrl(mdp5_data->mdata, true);
 
+#if defined(CONFIG_LCD_KCAL) 
 		if (!ctl->mfd->index) {
 			kcal_pdata->refresh_display();
 		}
+#endif
 
 		mdss_mdp_release_splash_pipe(mfd);
 		return 0;
