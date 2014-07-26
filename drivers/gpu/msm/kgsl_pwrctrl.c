@@ -46,6 +46,10 @@
 /* Number of jiffies for a full thermal cycle */
 #define TH_HZ			20
 
+#ifdef CONFIG_CPU_FREQ_GOV_SLIM
+int graphics_boost = 6;
+#endif
+
 struct clk_pair {
 	const char *name;
 	uint map;
@@ -212,6 +216,10 @@ void kgsl_pwrctrl_pwrlevel_change(struct kgsl_device *device,
 	 * clocks come back
 	 */
 	pwr->active_pwrlevel = new_level;
+
+#ifdef CONFIG_CPU_FREQ_GOV_SLIM
+        graphics_boost = pwr->active_pwrlevel;
+#endif
 
 	/*
 	 * Update the bus before the GPU clock to prevent underrun during
