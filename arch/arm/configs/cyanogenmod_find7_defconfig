@@ -3481,6 +3481,10 @@ CONFIG_CRYPTO_MD5=y
 # CONFIG_CRYPTO_RMD256 is not set
 # CONFIG_CRYPTO_RMD320 is not set
 CONFIG_CRYPTO_SHA1=y
+<<<<<<< HEAD
+=======
+CONFIG_CRYPTO_SHA1_ARM=y
+>>>>>>> 3b1ce1d... bacon/find7: Enable optimized AES and SHA1 routines
 CONFIG_CRYPTO_SHA256=y
 # CONFIG_CRYPTO_SHA512 is not set
 # CONFIG_CRYPTO_TGR192 is not set
@@ -3490,6 +3494,10 @@ CONFIG_CRYPTO_SHA256=y
 # Ciphers
 #
 CONFIG_CRYPTO_AES=y
+<<<<<<< HEAD
+=======
+CONFIG_CRYPTO_AES_ARM=y
+>>>>>>> 3b1ce1d... bacon/find7: Enable optimized AES and SHA1 routines
 # CONFIG_CRYPTO_ANUBIS is not set
 CONFIG_CRYPTO_ARC4=y
 # CONFIG_CRYPTO_BLOWFISH is not set
