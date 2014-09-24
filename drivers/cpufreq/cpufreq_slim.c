@@ -1111,26 +1111,6 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 		}
 	}
 
-	if (dbs_tuners_ins.gboost) {
-
-		if (g_count < 100 && graphics_boost < 5) {
-			++g_count;
-		} else if (g_count > 1) {
-			--g_count;
-			--g_count;
-		}
-
-		if (graphics_boost < 4 && g_count > 80) {
-			dbs_tuners_ins.up_threshold = 60 + (graphics_boost * 10);
-		} else {
-			dbs_tuners_ins.up_threshold = orig_up_threshold;
-		}
-
-		if (g_count > 80)
-			boost_min_freq(1267200);
-	}
-	//end
-
 	if (num_online_cpus() > 1) {
 		if (max_load_other_cpu >
 				dbs_tuners_ins.up_threshold_any_cpu_load) {
