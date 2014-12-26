@@ -24,7 +24,6 @@
 #include <linux/platform_device.h>
 #include <linux/module.h>
 #include <linux/device.h>
-#include "acpuclock.h"
 
 #define DEBUG 0
 
@@ -85,12 +84,11 @@ static unsigned int NwNs_Threshold[8] = {12, 0, 20, 7, 25, 10, 0, 18};
 static unsigned int TwTs_Threshold[8] = {140, 0, 140, 190, 140, 190, 0, 190};
 
 extern unsigned int get_rq_info(void);
-extern unsigned long acpuclk_get_rate(int);
 
 unsigned int state = MSM_MPDEC_DISABLED;
 
 static unsigned long get_rate(int cpu) {
-	return acpuclk_get_rate(cpu);
+	return cpufreq_get(cpu);
 }
 
 static int get_slowest_cpu(void) {
