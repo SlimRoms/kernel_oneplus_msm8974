@@ -39,6 +39,7 @@ CONFIG_IRQ_WORK=y
 #
 # Slim Settings
 CONFIG_CPU_VOLTAGE_TABLE=y
+CONFIG_BRICKED_HOTPLUG=y
 
 #
 # General setup
