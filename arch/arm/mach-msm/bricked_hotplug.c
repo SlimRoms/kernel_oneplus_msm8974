@@ -27,7 +27,7 @@
 
 #define DEBUG 0
 
-#define MPDEC_TAG			"bricked_hotplug"
+#define MPDEC_TAG			"[BRICKED] "
 #define HOTPLUG_ENABLED			1
 #define MSM_MPDEC_STARTDELAY		20000
 #define MSM_MPDEC_DELAY			130
