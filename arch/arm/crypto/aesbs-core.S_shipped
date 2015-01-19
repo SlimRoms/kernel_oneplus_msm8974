@@ -446,7 +446,9 @@ _bsaes_decrypt8:
 	 @ vmov	q5, q9
 	vldmia	r6, {q12}		@ .LISR
 	ite	eq				@ Thumb2 thing, sanity check in ARM
+#ifdef __Linaro__
 	addeq	r6,r6,#0x10
+#endif
 	bne	.Ldec_loop
 	vldmia	r6, {q12}		@ .LISRM0
 	b	.Ldec_loop
@@ -901,7 +903,9 @@ _bsaes_encrypt8_bitslice:
 	 @ vmov	q5, q9
 	vldmia	r6, {q12}		@ .LSR
 	ite	eq				@ Thumb2 thing, samity check in ARM
+#ifdef __Linaro__
 	addeq	r6,r6,#0x10
+#endif
 	bne	.Lenc_loop
 	vldmia	r6, {q12}		@ .LSRM0
 	b	.Lenc_loop
@@ -2097,7 +2101,9 @@ bsaes_xts_decrypt:
 
 	tst	r9, #0xf			@ if not multiple of 16
 	it	ne				@ Thumb2 thing, sanity check in ARM
+#ifdef __Linaro__
 	subne	r9, #0x10			@ subtract another 16 bytes
+#endif
 	subs	r9, #0x80
 
 	blo	.Lxts_dec_short
