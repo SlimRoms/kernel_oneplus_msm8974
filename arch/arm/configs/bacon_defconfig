@@ -700,7 +700,12 @@ CONFIG_ZBOOT_ROM_BSS=0
 CONFIG_CMDLINE=""
 # CONFIG_XIP_KERNEL is not set
 CONFIG_KEXEC=y
+<<<<<<< HEAD:arch/arm/configs/bacon_defconfig
 CONFIG_ATAGS_PROC=y
+=======
+CONFIG_KEXEC_HARDBOOT=y
+CONFIG_ATAGS_PROC=n
+>>>>>>> af5ef3d... [PATCH] Implement kexec-hardboot:arch/arm/configs/cyanogenmod_bacon_defconfig
 # CONFIG_CRASH_DUMP is not set
 # CONFIG_AUTO_ZRELADDR is not set
 
@@ -1305,7 +1310,7 @@ CONFIG_OF=y
 #
 # Device Tree and Open Firmware support
 #
-# CONFIG_PROC_DEVICETREE is not set
+CONFIG_PROC_DEVICETREE=y
 # CONFIG_OF_SELFTEST is not set
 CONFIG_OF_FLATTREE=y
 CONFIG_OF_EARLY_FLATTREE=y
