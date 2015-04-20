@@ -2322,6 +2322,11 @@ CONFIG_VIDEO_CAPTURE_DRIVERS=y
 # CONFIG_VIDEO_UPD64083 is not set
 
 #
+#Slim Setup
+#
+CONFIG_MODULES=y
+
+#
 # Miscelaneous helper chips
 #
 # CONFIG_VIDEO_THS7303 is not set
