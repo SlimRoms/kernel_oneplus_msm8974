@@ -566,7 +566,7 @@ static void qcrypto_bw_reaper_work(struct work_struct *work)
 		/* check if engine is stuck */
 		if (pengine->req) {
 			if (pengine->check_flag)
-				dev_err(&pengine->pdev->dev,
+				dev_warn(&pengine->pdev->dev,
 				"The engine appears to be stuck seq %d req %p.\n",
 				active_seq, pengine->req);
 			pengine->check_flag = false;
@@ -1835,8 +1835,7 @@ static int _qcrypto_process_aead(struct  crypto_engine *pengine,
 
 	return ret;
 }
-#define list_next_entry(pos, member) \
-		list_entry(pos->member.next, typeof(*pos), member)
+
 static struct crypto_engine *_qcrypto_static_assign_engine(
 					struct crypto_priv *cp)
 {
