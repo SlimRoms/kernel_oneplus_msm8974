@@ -170,15 +170,6 @@ int get_crypt_info(struct inode *inode)
 
 	if (!inode->i_sb->s_cop->get_context)
 		return -EOPNOTSUPP;
-retry:
-	crypt_info = ACCESS_ONCE(inode->i_crypt_info);
-	if (crypt_info) {
-		if (!crypt_info->ci_keyring_key ||
-				key_validate(crypt_info->ci_keyring_key) == 0)
-			return 0;
-		fscrypt_put_encryption_info(inode, crypt_info);
-		goto retry;
-	}
 
 	res = inode->i_sb->s_cop->get_context(inode, &ctx, sizeof(ctx));
 	if (res < 0) {
