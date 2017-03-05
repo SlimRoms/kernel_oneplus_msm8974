@@ -1141,16 +1141,6 @@ static int get_virtual_key_button(int x, int y)
 }
 /***** For virtual key definition end *********************/
 
-static void synaptics_update_gesture_status(struct synaptics_rmi4_data *ts)
-{
-	atomic_set(&ts->syna_use_gesture,
-			atomic_read(&ts->double_tap_enable) ||
-			atomic_read(&ts->camera_enable) ||
-			atomic_read(&ts->music_enable) ||
-			atomic_read(&ts->flashlight_enable) ||
-    		atomic_read(&ts->silent_vib_sound_enable) ? 1 : 0);
-}
-
 static int synaptics_set_f12ctrl_data(struct synaptics_rmi4_data *rmi4_data, bool enable, unsigned char suppression)
 {
 	int retval;
@@ -1598,34 +1588,6 @@ static int synaptics_rmi4_proc_pdoze_write( struct file *filp, const char __user
 	return len;
 }
 
-static int synaptics_rmi4_proc_silent_vib_sound_read(char *page, char **start, off_t off,
-		int count, int *eof, void *data)
-{
-	return sprintf(page, "%d\n", atomic_read(&syna_rmi4_data->silent_vib_sound_enable));
-}
-
-static int synaptics_rmi4_proc_silent_vib_sound_write(struct file *filp,
-		const char __user *buff, unsigned long len, void *data)
-{
-	int enable;
-	char buf[2];
-
-	if (len > 2)
-		return 0;
-
-	if (copy_from_user(buf, buff, len)) {
-		pr_debug("Read proc input error.\n");
-		return -EFAULT;
-	}
-
-	enable = (buf[0] == '0') ? 0 : 1;
-
-	atomic_set(&syna_rmi4_data->silent_vib_sound_enable, enable);
-	synaptics_update_gesture_status(syna_rmi4_data);
-
-	return len;
-}
-
 static int keypad_enable_proc_read(char *page, char **start, off_t off,
 		int count, int *eof, void *data)
 {
@@ -1731,14 +1693,7 @@ static int synaptics_rmi4_init_touchpanel_proc(void)
 		proc_entry->read_proc = synaptics_rmi4_crood_read;
 	}
 
-    // wake to put phone into silent/sound
-	proc_entry = create_proc_entry("silent_vib_sound_enable", 0664, procdir);
-	if (proc_entry) {
-		proc_entry->write_proc = synaptics_rmi4_proc_silent_vib_sound_write;
-		proc_entry->read_proc = synaptics_rmi4_proc_silent_vib_sound_read;
-	}
-
- 	proc_entry = create_proc_entry("keypad_enable", 0664, procdir);
+	proc_entry = create_proc_entry("keypad_enable", 0664, procdir);
 	if (proc_entry) {
 		proc_entry->write_proc = keypad_enable_proc_write;
 		proc_entry->read_proc = keypad_enable_proc_read;
@@ -2453,8 +2408,6 @@ static unsigned char synaptics_rmi4_update_gesture2(unsigned char *gesture,
 			switch (gesture[2]) {
 				case 0x01:  //UP
 					gesturemode = DownVee;
-                    if (atomic_read(&syna_rmi4_data->silent_vib_sound_enable))
-                        keyvalue = KEY_GESTURE_V_UP;
 					break;
 				case 0x02:  //DOWN
 					gesturemode = UpVee;
@@ -3865,7 +3818,6 @@ static void synaptics_rmi4_set_params(struct synaptics_rmi4_data *rmi4_data)
 	set_bit(KEY_GESTURE_CIRCLE, rmi4_data->input_dev->keybit);
 	set_bit(KEY_GESTURE_SWIPE_DOWN, rmi4_data->input_dev->keybit);
 	set_bit(KEY_GESTURE_V, rmi4_data->input_dev->keybit);
-	set_bit(KEY_GESTURE_V_UP, rmi4_data->input_dev->keybit);
 	set_bit(KEY_GESTURE_LTR, rmi4_data->input_dev->keybit);
 	set_bit(KEY_GESTURE_GTR, rmi4_data->input_dev->keybit);
 	synaptics_ts_init_virtual_key(rmi4_data);
@@ -3951,9 +3903,8 @@ static int synaptics_rmi4_set_input_dev(struct synaptics_rmi4_data *rmi4_data)
 	atomic_set(&rmi4_data->syna_use_gesture, 0);
 	atomic_set(&rmi4_data->double_tap_enable, 1);
 	atomic_set(&rmi4_data->camera_enable, 0);
- 	atomic_set(&rmi4_data->flashlight_enable, 0);
 	atomic_set(&rmi4_data->music_enable, 0);
-	atomic_set(&rmi4_data->silent_vib_sound_enable, 0);
+	atomic_set(&rmi4_data->flashlight_enable, 0);
 
 	rmi4_data->glove_enable = 0;
 	rmi4_data->pdoze_enable = 0;

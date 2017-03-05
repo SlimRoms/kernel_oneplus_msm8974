@@ -282,13 +282,12 @@ struct synaptics_rmi4_data {
 	atomic_t syna_use_gesture;
 	atomic_t double_tap_enable;
 	atomic_t camera_enable;
+	atomic_t music_enable;
 	atomic_t flashlight_enable;
 	unsigned char glove_enable;  //glove mode
 	unsigned char pdoze_enable;  //pdoze mode
 	unsigned char smartcover_enable;  //smartcover mode
 	unsigned char pdoze_status;
-	atomic_t music_enable;
-	atomic_t silent_vib_sound_enable;
 	atomic_t keypad_enable;
 	unsigned char bcontinue;
 	struct workqueue_struct *reportqueue;  //for work queue
